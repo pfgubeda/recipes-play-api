@@ -4,12 +4,12 @@ package model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
 import io.ebean.Model;
+import org.checkerframework.common.aliasing.qual.Unique;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,6 +19,7 @@ public class Recipe extends Model {
     @Id
     private Long id;
 
+    @Unique
     private String Name;
     private int PreparationTime;
     private int Difficulty;
@@ -33,7 +34,6 @@ public class Recipe extends Model {
     }
 
     public static List<Recipe> findAll(){
-        System.out.println("LLEGA AL FINDALL");
         return find.all();
     }
 
@@ -83,9 +83,25 @@ public class Recipe extends Model {
     }
 
     public void addIngredient(Ingredient ingredient) {
-        if (this.ingredients == null){
-            this.ingredients = new ArrayList<Ingredient>();
-        }
         this.ingredients.add(ingredient);
+    }
+
+    public void deleteIngredients() {
+        this.ingredients.clear();
+        System.out.println("Ingredients deleted");
+    }
+
+    public Ingredient getIngredientByName(String name) {
+        for (Ingredient ingredient : this.ingredients) {
+            if (ingredient.getName().equals(name)) {
+                System.out.println("Ingredient found");
+                return ingredient;
+            }
+        }
+        return null;
+    }
+
+    public void removeIngredient(Ingredient ingredient) {
+        this.ingredients.remove(ingredient);
     }
 }

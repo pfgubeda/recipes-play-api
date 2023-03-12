@@ -37,3 +37,13 @@ POST    /recipes           controllers.RecipeController.create(req: Request)
 
 # Get all recipes
 GET     /recipes       controllers.RecipeController.retrieveAll(req: Request)
+
+# Get recipe by name
+GET     /recipes/:name       controllers.RecipeController.retrieveByName(req: Request, name: String)
+
+# Update recipe by name
+PUT     /recipes/:name       controllers.RecipeController.updateRecipeByName(req: Request, name: String)
+
+# Delete recipe by name
+DELETE     /recipes/:name       controllers.RecipeController.deleteByName(req: Request, name: String)
+

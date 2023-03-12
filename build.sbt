@@ -19,4 +19,3 @@ libraryDependencies += "org.fusesource.jansi" % "jansi" % "1.18"
 libraryDependencies ++= Seq(
   ehcache
 )
-

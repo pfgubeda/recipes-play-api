@@ -3,19 +3,19 @@ package model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
 import io.ebean.Model;
+import org.checkerframework.common.aliasing.qual.Unique;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Ingredient extends Model {
-    private static final Finder<Long, User> find = new Finder<>(User.class);
+    private static final Finder<Long, Recipe> find = new Finder<>(Recipe.class);
     @Id
     private Long id;
 
+
     private String name;
+    private int quantity;
 
     @ManyToOne
     @JsonIgnore
@@ -41,5 +41,17 @@ public class Ingredient extends Model {
     }
     public void setParentRecipe(Recipe parentRecipe) {
         this.parentRecipe = parentRecipe;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void updateIngredient( Ingredient ingredient) {
+        this.name = ingredient.getName();
+        this.quantity = ingredient.getQuantity();
     }
 }

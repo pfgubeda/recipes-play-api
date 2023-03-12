@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import model.Ingredient;
 import model.Recipe;
 import play.cache.Cached;
 import play.cache.SyncCacheApi;
@@ -44,19 +45,24 @@ public class RecipeController extends Controller {
         } else {
             recipeResource = recipeForm.get();
         }
-
+        //check if recipe exists already with that name
+        Recipe recipe = Recipe.findByName(recipeResource.getName());
+        if (recipe != null) {
+            Messages messages = nessagesApi.preferred(req);
+            ObjectNode jsonResult = Json.newObject();
+            jsonResult.put("error", messages.at("recipe.already.exists"));
+            return Results.badRequest(jsonResult);
+        }
         Recipe recipeModel = recipeResource.toModel();
         recipeModel.save(); //Guardar
-        ObjectNode jsonResult = Json.newObject();
-        jsonResult.put("id", recipeModel.getId());
-        return Results.created(jsonResult);
+        return Results.created("Recipe : "+recipeModel.getName()+" created with id: "+recipeModel.getId());
     }
-    @Cached(key = "all-recipes-view", duration = 5)
+   @Cached(key = "all-recipes-view", duration = 5)
     public Result retrieveAll(Http.Request req) {
         List<Recipe> recipes;
-        Optional<Object> optRecipes = cache.get("all-recipes");
+        Optional<List<Recipe>> optRecipes = cache.get("all-recipes");
         if(optRecipes.isPresent()){
-            recipes = (List<Recipe>) optRecipes.get();
+            recipes = optRecipes.get();
         }else{
             recipes = Recipe.findAll();
             cache.set("all-recipes", recipes);
@@ -77,8 +83,14 @@ public class RecipeController extends Controller {
         return res;
     }
 
-    public Result updateByName(Http.Request req, String name) {
+    public Result updateRecipeByName(Http.Request req, String name) {
         Recipe recipe = Recipe.findByName(name);
+        if (recipe == null) {
+            Messages messages = nessagesApi.preferred(req);
+            ObjectNode jsonResult = Json.newObject();
+            jsonResult.put("error", messages.at("recipe.not.exists"));
+            return Results.badRequest(jsonResult);
+        }
         Form<RecipeResource> recipeForm = formFactory.form(RecipeResource.class).bindFromRequest(req);
         RecipeResource recipeResource;
 
@@ -89,14 +101,40 @@ public class RecipeController extends Controller {
             recipeResource = recipeForm.get();
         }
 
-        recipeResource.updateModel(recipe);
+        //for each ingredient in recipe resource check if it exists in recipe, if it exists update the quantity, if it doesn't exist add it
+        for(Ingredient ingredient : recipeResource.getIngredients()){
+            Ingredient ingredientInRecipe = recipe.getIngredientByName(ingredient.getName());
+            if(ingredientInRecipe != null){
+                ingredientInRecipe.setQuantity(ingredient.getQuantity());
+                // ingredientInRecipe.update();
+            }else{
+                recipe.addIngredient(ingredient);
+            }
+        }
+        //for each ingredient in recipe check if it exists in recipe resource, if it doesn't exist remove it
+        for(Ingredient ingredient : recipe.getIngredients()){
+            Ingredient ingredientInRecipeResource = recipeResource.getIngredientByName(ingredient.getName());
+            if(ingredientInRecipeResource == null){
+                recipe.removeIngredient(ingredient);
+            }
+        }
+        recipe.setName(recipeResource.getName());
+        recipe.setDifficulty(recipeResource.getDifficulty());
         recipe.update();
-        return Results.ok();
+        return Results.ok("Recipe : "+recipe.getName()+" updated");
     }
 
     public Result deleteByName(Http.Request req, String name) {
         Recipe recipe = Recipe.findByName(name);
+        if (recipe == null) {
+            Messages messages = nessagesApi.preferred(req);
+            ObjectNode jsonResult = Json.newObject();
+            jsonResult.put("error", messages.at("recipe.not.exists"));
+            return Results.badRequest(jsonResult);
+        }
         recipe.delete();
-        return Results.ok();
+        return Results.ok("Recipe : "+recipe.getName()+" deleted");
     }
+
+
 }

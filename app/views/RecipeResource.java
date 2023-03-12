@@ -81,4 +81,14 @@ public class RecipeResource {
         recipe.setDifficulty(this.difficulty);
         recipe.setIngredients(this.ingredients);
     }
+
+    public Ingredient getIngredientByName(String name) {
+        for (Ingredient ingredient : this.ingredients) {
+            if (ingredient.getName().equals(name)) {
+                System.out.println("Ingredient found");
+                return ingredient;
+            }
+        }
+        return null;
+    }
 }
