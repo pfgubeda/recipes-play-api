@@ -1,9 +1,8 @@
-package model;
+package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
 import io.ebean.Model;
-import org.checkerframework.common.aliasing.qual.Unique;
 
 import javax.persistence.*;
 

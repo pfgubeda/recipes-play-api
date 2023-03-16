@@ -2,8 +2,8 @@ package views;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
-import model.Ingredient;
-import model.Recipe;
+import models.Ingredient;
+import models.Recipe;
 import play.libs.Json;
 import play.data.validation.Constraints;
 

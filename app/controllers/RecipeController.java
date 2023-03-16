@@ -2,8 +2,8 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import model.Ingredient;
-import model.Recipe;
+import models.Ingredient;
+import models.Recipe;
 import play.cache.Cached;
 import play.cache.SyncCacheApi;
 import play.data.Form;
@@ -68,10 +68,15 @@ public class RecipeController extends Controller {
             cache.set("all-recipes", recipes);
         }
 
-        List<RecipeResource> recipeResources = recipes.stream().map(RecipeResource::new).collect(Collectors.toList());
-        JsonNode jsonResult = Json.toJson(recipeResources);
-        Result res = Results.ok(jsonResult);
-        return res;
+        if(req.accepts("application/xml")){
+             return ok(views.xml.recipes.render(recipes));
+
+        }else {
+            List<RecipeResource> recipeResources = recipes.stream().map(RecipeResource::new).collect(Collectors.toList());
+            JsonNode jsonResult = Json.toJson(recipeResources);
+            Result res = Results.ok(jsonResult);
+            return res;
+        }
 
     }
 

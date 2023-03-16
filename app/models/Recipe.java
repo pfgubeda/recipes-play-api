@@ -1,4 +1,4 @@
-package model;
+package models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,9 +20,9 @@ public class Recipe extends Model {
     private Long id;
 
     @Unique
-    private String Name;
-    private int PreparationTime;
-    private int Difficulty;
+    private String name;
+    private int preparationTime;
+    private int difficulty;
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentRecipe")
@@ -51,27 +51,27 @@ public class Recipe extends Model {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setName(String name1) {
+        name = name1;
     }
 
     public int getPreparationTime() {
-        return PreparationTime;
+        return preparationTime;
     }
 
-    public void setPreparationTime(int preparationTime) {
-        PreparationTime = preparationTime;
+    public void setPreparationTime(int preparationTime1) {
+        preparationTime = preparationTime1;
     }
 
     public int getDifficulty() {
-        return Difficulty;
+        return difficulty;
     }
 
-    public void setDifficulty(int difficulty) {
-        Difficulty = difficulty;
+    public void setDifficulty(int difficulty1) {
+        difficulty = difficulty1;
     }
 
     public List<Ingredient> getIngredients() {
