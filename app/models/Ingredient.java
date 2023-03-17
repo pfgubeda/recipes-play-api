@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class Ingredient extends Model {
     private static final Finder<Long, Recipe> find = new Finder<>(Recipe.class);
     @Id
+    @JsonIgnore
     private Long id;
 
 
@@ -54,8 +55,4 @@ public class Ingredient extends Model {
         this.quantity = quantity;
     }
 
-    public void updateIngredient( Ingredient ingredient) {
-        this.name = ingredient.getName();
-        this.quantity = ingredient.getQuantity();
-    }
 }

@@ -49,3 +49,6 @@ DELETE     /recipes/:name       controllers.RecipeController.deleteByName(req: R
 
 # Get recipe by difficulty
 GET     /recipes/difficulty/:difficulty       controllers.RecipeController.retrieveByDifficulty(req: Request, difficulty: Integer)
+
+# Get recipe by maximum preparation time
+GET     /recipes/preparationTime/:preparationTime       controllers.RecipeController.retrieveByMaxPreparationTime(req: Request, preparationTime: Integer)

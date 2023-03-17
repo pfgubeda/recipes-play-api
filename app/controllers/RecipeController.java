@@ -50,7 +50,7 @@ public class RecipeController extends Controller {
         if (recipe != null) {
             Messages messages = nessagesApi.preferred(req);
             ObjectNode jsonResult = Json.newObject();
-            jsonResult.put("error", messages.at("recipe.already.exists"));
+            jsonResult.put("error", messages.at("recipe.exists"));
             return Results.badRequest(jsonResult);
         }
         Recipe recipeModel = recipeResource.toModel();
@@ -82,10 +82,21 @@ public class RecipeController extends Controller {
 
     public Result retrieveByName(Http.Request req, String name) {
        Recipe recipe = Recipe.findByName(name);
-        RecipeResource recipeResource = new RecipeResource(recipe);
-        JsonNode jsonResult = Json.toJson(recipeResource);
-        Result res = Results.ok(jsonResult);
-        return res;
+        if (recipe == null) {
+            Messages messages = nessagesApi.preferred(req);
+            ObjectNode jsonResult = Json.newObject();
+            jsonResult.put("error", messages.at("recipe.not.exists"));
+            return Results.badRequest(jsonResult);
+        }
+        List<Recipe> recipes = List.of(recipe);
+        if(req.accepts("application/xml")){
+            return ok(views.xml.recipes.render(recipes));
+        }else {
+            RecipeResource recipeResource = new RecipeResource(recipe);
+            JsonNode jsonResult = Json.toJson(recipeResource);
+            Result res = Results.ok(jsonResult);
+            return res;
+        }
     }
 
     public Result updateRecipeByName(Http.Request req, String name) {
@@ -134,5 +145,14 @@ public class RecipeController extends Controller {
         Result res = Results.ok(jsonResult);
         return res;
     }
+
+    public Result retrieveByMaxPreparationTime(Http.Request req, int maxPreparationTime) {
+        List<Recipe> recipes = Recipe.findByMaxPreparationTime(maxPreparationTime);
+        List<RecipeResource> recipeResources = recipes.stream().map(RecipeResource::new).collect(Collectors.toList());
+        JsonNode jsonResult = Json.toJson(recipeResources);
+        Result res = Results.ok(jsonResult);
+        return res;
+    }
+
 
 }

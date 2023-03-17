@@ -41,6 +41,10 @@ public class Recipe extends Model {
         return find.query().where().eq("difficulty", difficulty).findList();
     }
 
+    public static List<Recipe> findByMaxPreparationTime(int maxPreparationTime) {
+        return find.query().where().le("preparationTime", maxPreparationTime).findList();
+    }
+
 
     //getters & setters
     public Long getId() {
@@ -83,26 +87,4 @@ public class Recipe extends Model {
         this.ingredients = ingredients;
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
-    }
-
-    public void deleteIngredients() {
-        this.ingredients.clear();
-        System.out.println("Ingredients deleted");
-    }
-
-    public Ingredient getIngredientByName(String name) {
-        for (Ingredient ingredient : this.ingredients) {
-            if (ingredient.getName().equals(name)) {
-                System.out.println("Ingredient found");
-                return ingredient;
-            }
-        }
-        return null;
-    }
-
-    public void removeIngredient(Ingredient ingredient) {
-        this.ingredients.remove(ingredient);
-    }
 }

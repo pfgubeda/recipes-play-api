@@ -2,6 +2,7 @@ package views;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Ingredient;
 import models.Recipe;
 import play.libs.Json;
@@ -72,7 +73,8 @@ public class RecipeResource {
     }
 
     public JsonNode toJson(){
-        return Json.toJson(this);
+        JsonNode json = Json.toJson(this);
+        return json;
     }
 
     public void updateModel(Recipe recipe) {
@@ -85,7 +87,6 @@ public class RecipeResource {
     public Ingredient getIngredientByName(String name) {
         for (Ingredient ingredient : this.ingredients) {
             if (ingredient.getName().equals(name)) {
-                System.out.println("Ingredient found");
                 return ingredient;
             }
         }

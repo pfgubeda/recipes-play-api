@@ -1,1 +1,2 @@
-text=This is a text
+recipe.exists=Recipe already exists
+recipe.not.exists=Recipe does not exist
