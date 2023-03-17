@@ -20,6 +20,11 @@ public class Ingredient extends Model {
     @JsonIgnore
     private Recipe parentRecipe;
 
+    public Ingredient(Ingredient ingredient) {
+        this.name = ingredient.getName();
+        this.quantity = ingredient.getQuantity();
+    }
+
     public Long getId() {
         return id;
     }

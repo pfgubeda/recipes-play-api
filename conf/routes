@@ -47,3 +47,5 @@ PUT     /recipes/:name       controllers.RecipeController.updateRecipeByName(req
 # Delete recipe by name
 DELETE     /recipes/:name       controllers.RecipeController.deleteByName(req: Request, name: String)
 
+# Get recipe by difficulty
+GET     /recipes/difficulty/:difficulty       controllers.RecipeController.retrieveByDifficulty(req: Request, difficulty: Integer)

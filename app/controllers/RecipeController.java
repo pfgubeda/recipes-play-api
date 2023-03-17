@@ -105,24 +105,10 @@ public class RecipeController extends Controller {
         } else {
             recipeResource = recipeForm.get();
         }
-
-        //for each ingredient in recipe resource check if it exists in recipe, if it exists update the quantity, if it doesn't exist add it
-        for(Ingredient ingredient : recipeResource.getIngredients()){
-            Ingredient ingredientInRecipe = recipe.getIngredientByName(ingredient.getName());
-            if(ingredientInRecipe != null){
-                ingredientInRecipe.setQuantity(ingredient.getQuantity());
-                // ingredientInRecipe.update();
-            }else{
-                recipe.addIngredient(ingredient);
-            }
-        }
-        //for each ingredient in recipe check if it exists in recipe resource, if it doesn't exist remove it
-        for(Ingredient ingredient : recipe.getIngredients()){
-            Ingredient ingredientInRecipeResource = recipeResource.getIngredientByName(ingredient.getName());
-            if(ingredientInRecipeResource == null){
-                recipe.removeIngredient(ingredient);
-            }
-        }
+        //delete old ingredients
+        recipe.getIngredients().forEach(Ingredient::delete);
+        //update recipe
+        recipe.setIngredients(recipeResource.getIngredients());
         recipe.setName(recipeResource.getName());
         recipe.setDifficulty(recipeResource.getDifficulty());
         recipe.update();
@@ -141,5 +127,12 @@ public class RecipeController extends Controller {
         return Results.ok("Recipe : "+recipe.getName()+" deleted");
     }
 
+    public Result retrieveByDifficulty(Http.Request req, int difficulty) {
+        List<Recipe> recipes = Recipe.findByDifficulty(difficulty);
+        List<RecipeResource> recipeResources = recipes.stream().map(RecipeResource::new).collect(Collectors.toList());
+        JsonNode jsonResult = Json.toJson(recipeResources);
+        Result res = Results.ok(jsonResult);
+        return res;
+    }
 
 }

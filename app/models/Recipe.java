@@ -37,8 +37,9 @@ public class Recipe extends Model {
         return find.all();
     }
 
-
-
+    public static List<Recipe> findByDifficulty(int difficulty) {
+        return find.query().where().eq("difficulty", difficulty).findList();
+    }
 
 
     //getters & setters
