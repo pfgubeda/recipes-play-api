@@ -45,6 +45,11 @@ public class Recipe extends Model {
         return find.query().where().le("preparationTime", maxPreparationTime).findList();
     }
 
+    //Only for testing purposes
+    public static void deleteAll() {
+        find.query().delete();
+    }
+
 
     //getters & setters
     public Long getId() {

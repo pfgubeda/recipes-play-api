@@ -85,7 +85,7 @@ public class RecipeController extends Controller {
 
     }
 
-    public Result retrieveAllNoCache(Http.Request req) {
+    public Result retrieveAllNoCached(Http.Request req) {
         List<Recipe> recipes = Recipe.findAll();
         if(recipes.isEmpty()){
             Messages messages = nessagesApi.preferred(req);
@@ -166,6 +166,12 @@ public class RecipeController extends Controller {
 
     public Result retrieveByDifficulty(Http.Request req, int difficulty) {
         List<Recipe> recipes = Recipe.findByDifficulty(difficulty);
+        if(recipes.isEmpty()){
+            Messages messages = nessagesApi.preferred(req);
+            ObjectNode jsonResult = Json.newObject();
+            jsonResult.put("error", messages.at("recipe.empty"));
+            return Results.badRequest(jsonResult);
+        }
         List<RecipeResource> recipeResources = recipes.stream().map(RecipeResource::new).collect(Collectors.toList());
         JsonNode jsonResult = Json.toJson(recipeResources);
         Result res = Results.ok(jsonResult);
@@ -174,11 +180,22 @@ public class RecipeController extends Controller {
 
     public Result retrieveByMaxPreparationTime(Http.Request req, int maxPreparationTime) {
         List<Recipe> recipes = Recipe.findByMaxPreparationTime(maxPreparationTime);
+        if(recipes.isEmpty()){
+            Messages messages = nessagesApi.preferred(req);
+            ObjectNode jsonResult = Json.newObject();
+            jsonResult.put("error", messages.at("recipe.empty"));
+            return Results.badRequest(jsonResult);
+        }
         List<RecipeResource> recipeResources = recipes.stream().map(RecipeResource::new).collect(Collectors.toList());
         JsonNode jsonResult = Json.toJson(recipeResources);
         Result res = Results.ok(jsonResult);
         return res;
     }
 
+    //Only for testing purposes
+    public Result deleteAll(Http.Request req) {
+        Recipe.deleteAll();
+        return Results.ok("All recipes deleted");
+    }
 
 }

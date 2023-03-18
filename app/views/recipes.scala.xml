@@ -1,19 +1,15 @@
 @(recipes: List[Recipe])
 <?xml version="1.0" encoding="UTF-8" ?>
-<recipes>
-  @for(recipe <- recipes) {
+<recipes>@for(recipe <- recipes) {
     <recipe>
       <name>@recipe.getName()</name>
       <preparationTime>@recipe.getPreparationTime()</preparationTime>
         <difficulty>@recipe.getDifficulty()</difficulty>
-        <ingredients>
-          @for(ingredient <- recipe.getIngredients()) {
+        <ingredients>@for(ingredient <- recipe.getIngredients()) {
             <ingredient>
                 <name>@ingredient.getName()</name>
                 <quantity>@ingredient.getQuantity()</quantity>
-            </ingredient>
-          }
+            </ingredient>}
         </ingredients>
-    </recipe>
-  }
+    </recipe>}
 </recipes>
