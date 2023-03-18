@@ -1,0 +1,329 @@
+{
+	"info": {
+		"_postman_id": "9a9db1d6-da64-4857-be93-c81175993940",
+		"name": "recipes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "post recipe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Arroz Blanco\",\n    \"time\" : 18,\n    \"difficulty\" : 2,\n    \"ingredients\" : [\n        {\"name\":\"cucharadas de aceite\",\n        \"quantity\":2},\n        {\"name\":\"gr sal\",\n        \"quantity\": 5},\n        {\"name\":\"tazas de agua\",\n        \"quantity\": 2},\n        {\"name\":\"tazas de arroz blanco de grano redondo\",\n        \"quantity\":1}\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/recipes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post recipe 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Macarrones con Tomate\",\n    \"time\" : 30,\n    \"difficulty\" : 3,\n    \"ingredients\" : [\n        {\"name\":\"gr macarrones\",\n        \"quantity\":400},\n        {\"name\":\"cebolla\",\n        \"quantity\": 1},\n        {\"name\":\"gr tomate triturado\",\n        \"quantity\": 800},\n        {\"name\":\"cucharaditas de azucar\",\n        \"quantity\": 1},\n        {\"name\":\"gr sal\",\n        \"quantity\": 5}\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/recipes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all recipes (cached)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9000/recipes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all recipes",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9000/recipes/noCached",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes",
+						"noCached"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all recipes xml (cached)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9000/recipes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all recipes xml",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9000/recipes/noCached",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes",
+						"noCached"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update recipe",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Arroz Blanco con Tomate\",\n    \"time\" : 18,\n    \"difficulty\" : 2,\n    \"ingredients\" : [\n        {\"name\":\"cucharadas de aceite\",\n        \"quantity\":2},\n        {\"name\":\"gr sal\",\n        \"quantity\": 5},\n        {\"name\":\"tazas de agua\",\n        \"quantity\": 2},\n        {\"name\":\"tazas de arroz blanco de grano redondo\",\n        \"quantity\":1},\n        {\"name\":\"gr Tomate\",\n        \"quantity\":200}\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/recipes/Arroz Blanco",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes",
+						"Arroz Blanco"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get recipe by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/recipes/Arroz Blanco con Tomate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes",
+						"Arroz Blanco con Tomate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get recipe by name xml",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9000/recipes/Arroz Blanco con Tomate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes",
+						"Arroz Blanco con Tomate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get recipe by difficulty",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/recipes/difficulty/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes",
+						"difficulty",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get recipe by max preparation time",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/recipes/preparationTime/20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes",
+						"preparationTime",
+						"20"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete recipe by name",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/recipes/Macarrones con Tomate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"recipes",
+						"Macarrones con Tomate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
