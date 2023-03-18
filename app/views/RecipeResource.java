@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Ingredient;
 import models.Recipe;
+import org.hibernate.validator.constraints.Range;
 import play.libs.Json;
 import play.data.validation.Constraints;
 
@@ -18,11 +19,12 @@ public class RecipeResource {
     private String name;
 
     @JsonProperty("time")
-    @Constraints.Required
+    @Constraints.Required(message = "time empty")
     private Integer time;
 
     @JsonProperty("difficulty")
-    @Constraints.Required
+    @Constraints.Required(message = "difficulty empty")
+    @Range(min = 1, max = 10, message = "difficulty must be between 1 and 10")
     private Integer difficulty;
 
     @JsonProperty("ingredients")

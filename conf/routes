@@ -1,14 +1,10 @@
 # Routes
-# This file defines all application routes (Higher priority routes first)
+# This file defines all application routes
 # ~~~~
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
-
-#RECETAS
-# Add recipe
-POST    /recipes           controllers.RecipeController.create(req: Request)
-
+# Recipes API
 # Get all recipes Cached
 GET     /recipes       controllers.RecipeController.retrieveAll(req: Request)
 
@@ -18,12 +14,6 @@ GET     /recipes/noCached       controllers.RecipeController.retrieveAllNoCached
 # Get recipe by name
 GET     /recipes/:name       controllers.RecipeController.retrieveByName(req: Request, name: String)
 
-# Update recipe by name
-PUT     /recipes/:name       controllers.RecipeController.updateRecipeByName(req: Request, name: String)
-
-# Delete recipe by name
-DELETE     /recipes/:name       controllers.RecipeController.deleteByName(req: Request, name: String)
-
 # Get recipe by difficulty
 GET     /recipes/difficulty/:difficulty       controllers.RecipeController.retrieveByDifficulty(req: Request, difficulty: Integer)
 
@@ -32,3 +22,13 @@ GET     /recipes/preparationTime/:preparationTime       controllers.RecipeContro
 
 # ONLY FOR TESTING
 GET  /recipes/testingEnvironment/deleteAll       controllers.RecipeController.deleteAll(req: Request)
+
+# Add recipe
+POST    /recipes           controllers.RecipeController.create(req: Request)
+
+# Update recipe by name
+PUT     /recipes/:name       controllers.RecipeController.updateRecipeByName(req: Request, name: String)
+
+# Delete recipe by name
+DELETE     /recipes/:name       controllers.RecipeController.deleteByName(req: Request, name: String)
+
