@@ -121,6 +121,7 @@ public class RecipeController extends Controller {
         //update recipe
         recipe.setIngredients(recipeResource.getIngredients());
         recipe.setName(recipeResource.getName());
+        recipe.setPreparationTime(recipeResource.getTime());
         recipe.setDifficulty(recipeResource.getDifficulty());
         recipe.update();
         return Results.ok("Recipe : "+recipe.getName()+" updated");
