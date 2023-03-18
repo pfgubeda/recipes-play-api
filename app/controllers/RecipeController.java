@@ -67,9 +67,34 @@ public class RecipeController extends Controller {
             recipes = Recipe.findAll();
             cache.set("all-recipes", recipes);
         }
-
+       if(recipes.isEmpty()){
+           Messages messages = nessagesApi.preferred(req);
+           ObjectNode jsonResult = Json.newObject();
+           jsonResult.put("error", messages.at("recipe.empty"));
+           return Results.badRequest(jsonResult);
+       }
         if(req.accepts("application/xml")){
              return ok(views.xml.recipes.render(recipes));
+
+        }else {
+            List<RecipeResource> recipeResources = recipes.stream().map(RecipeResource::new).collect(Collectors.toList());
+            JsonNode jsonResult = Json.toJson(recipeResources);
+            Result res = Results.ok(jsonResult);
+            return res;
+        }
+
+    }
+
+    public Result retrieveAllNoCache(Http.Request req) {
+        List<Recipe> recipes = Recipe.findAll();
+        if(recipes.isEmpty()){
+            Messages messages = nessagesApi.preferred(req);
+            ObjectNode jsonResult = Json.newObject();
+            jsonResult.put("error", messages.at("recipe.empty"));
+            return Results.badRequest(jsonResult);
+        }
+        if(req.accepts("application/xml")){
+            return ok(views.xml.recipes.render(recipes));
 
         }else {
             List<RecipeResource> recipeResources = recipes.stream().map(RecipeResource::new).collect(Collectors.toList());
