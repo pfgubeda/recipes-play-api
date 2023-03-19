@@ -34,18 +34,14 @@ public class RecipeController extends Controller {
     private SyncCacheApi cache;
 
     public Result create(Http.Request req) {
-
-
         Form<RecipeResource> recipeForm = formFactory.form(RecipeResource.class).bindFromRequest(req);
         RecipeResource recipeResource;
 
         if (recipeForm.hasErrors()) {
-            //gestion de errores
             return Results.badRequest(recipeForm.errorsAsJson());
         } else {
             recipeResource = recipeForm.get();
         }
-        //check if recipe exists already with that name
         Recipe recipe = Recipe.findByName(recipeResource.getName());
         if (recipe != null) {
             Messages messages = nessagesApi.preferred(req);
@@ -136,14 +132,11 @@ public class RecipeController extends Controller {
         RecipeResource recipeResource;
 
         if (recipeForm.hasErrors()) {
-            //gestion de errores
             return Results.badRequest(recipeForm.errorsAsJson());
         } else {
             recipeResource = recipeForm.get();
         }
-        //delete old ingredients
         recipe.getIngredients().forEach(Ingredient::delete);
-        //update recipe
         recipe.setIngredients(recipeResource.getIngredients());
         recipe.setName(recipeResource.getName());
         recipe.setPreparationTime(recipeResource.getTime());
